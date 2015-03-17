@@ -1,0 +1,77 @@
+May 9, 2006
+
+Welcome to LCedit+, release 3.4
+
+
+** LCX, LCE & LCM users should install firmware v2.06**
+
+Most new LCedit+ features have to do with time/MTC action, and theatre applications. It's now e.g. possible to sync to MTC (or SMPTE) or real time. For theatre applications we added e.g. percent views, "soft" reset, and "soft" back.
+
+In order to support the realtime and MTC clocks in the LanBox, LCedit's global setting are extended with several settings.
+
+Also included is the newest firmware v2.06 for the LanBox-LCX, LCE & LCM, newest MAX-MSP externals with examples (incl Jitter Video2DMX), and Isadora video to DMX example.
+
+
+
+New features of LCedit+ v3.4
+
+* Fade and hold time indicators with remaining time in min:sec.
+
+* Percent view option for the cuelist editor and the monitor window.
+
+* Columns in cast list and fixture setup patch list are now resizable.
+
+* Support for 16 bit wheel and button panels is added.
+
+* Added Martin MAC550 ext. This is the first definition using 16 bit Intensity and colors.
+
+* Library is updated with many new fixtures, and the file names are pre-fixed with make name. 
+
+* Hold until time/MTC is/transitions before/after d:hh:mm:ss:ff action added.
+
+* New Global LanBox settings for NTP server IP, time zone, clock tuning, and DMX clock addresses.
+
+* Many tooltips added.
+
+
+
+
+LCedit+ v3.4 bug fixes
+
+* CLI keys are now working reliable, especially in the Windows version.
+
+* Font and general readability improvements.
+
+
+
+
+What's new in LCX/LCE/LCM v2.06 firmware
+
+* IR remote control is now possible with remotes using Philips RC5, RC6, Sony 12, 15, 20, and NEC like IR protocol (like the Apple remote). It means you can now use many types of IR remotes to control a LCE or LCM.
+
+* The new firmware allows you to map IR keys to remote functions for 2 different IR remotes at the same time. The IR key map is written as a cuestep, so it can be exchanged with others. Default IR1 is Apple remote, and IR2 is the Sony RM-V202.
+
+* The IR Power or Menu key toggles between Home display (----) and menu 5 (layer/cues), this makes it possible to use minimal IR remotes (like Apple remote) to do Go, Go next, Go previous.
+
+* IR option Config code 0001 toggles between next and previous -step- commands or previous and next -CUE- commands.
+
+* IR remote auto repeat keys has been added to "edit" states like Cue number, Channel value, etc.
+
+* The LanBox TCP/IP stack has been made more robust, so it survives most common internet attacks like large UDP/ping packets, SYN connects, and others.
+
+* The CR fade bug, which molested the DMX value when a channel had the same value as previous in step, is fixed.
+
+* For theatre applications: Previous Cue can now use manual fade time (turn on manual fade type) to do the previous cue. This means that if you Go to next by accident, it can be corrected fast but smooth :-)
+
+* For theatre applications: "Reset Cue" (Go same step, shortcut: u <enter>), is also using the manual fade time when it's turned on. This can be used to go back to the original cue values after manual interference.
+
+* For theatre applications: Improved Fade and Hold time calculation.
+
+* Real time week clock is added. It can be set via DMX channels manually or via the Network Time Protocol. The used format is d:hh:mm:ss:ff, runs at 25 f/s and can be tuned for maximal accuracy when NTP can not be used.
+
+* MTC (SMPTE via convertor) clock receive is also added. It can be set via DMX channels manually or via the MIDI MTC protocol. The used format is d:hh:mm:ss:ff, and locks on 24, 25, 30, and 30DF f/s. 
+
+* Both clocks can use DMX channels, so that time and MTC can be distributed via Ethernet to non-MIDI LanBoxes as well.
+
+* Hold until <locked> time/MTC is/transitions before/after d:hh:mm:ss:ff action is added.
+

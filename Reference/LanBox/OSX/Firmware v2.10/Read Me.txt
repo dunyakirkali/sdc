@@ -1,0 +1,113 @@
+June 22, 2009
+
+Welcome to LanBox firmware, release 2.10
+
+** LCX & LCM users should install firmware v2.10 **
+
+What's new in LCX/LCM v2.10 firmware:
+
+* In order to use low cost MIDI commanders like BCF2000, the v2.10 firmware can be set to two alternate MIDI command sets, by setting the highest light channel (512 in LCM, 3072 in LCX) to the value of 0, 1 or 2:
+ 0  All MIDI commands are as described in the LC+ Reference v2.0a1.pdf.
+ 1  All Poly AfterTouch messages are also seen as NoteOns.
+ 2  All CC messages, except CC0 (bank select) are seen as NoteOns, and all Poly AfterTouch messages are seen as CC messages.
+
+Note: Option 2 makes it's possible to use commanders which can only have CC messages from a slider, but you looses easy CC access, and light channels on 128 or multiple can only be accessed by using LCedit's NoteOn offset.
+
+* LCX-only: Digital outputs 1-8 can now be used as 9600 baud serial outputs or as a normal on/off output. The actions are as "Write to MIDI", but need to be made as raw actions 31-38 (ch1-ch8). Example to control Marantz PMD930 DVD player:
+
+// Send ASCII: [PC,RC,44]+chr(13)
+// Cuelist 900 (22 steps), stored 19-06-2009 12:06
+  -- PLAY1
+  -- PC RC 44
+  raw 31 05 5B 50 43 2C 52
+  hold for 0.05s
+  raw 31 05 43 2C 34 34 5D
+  hold for 0.05s
+  raw 31 01 0D 00 00 00 00
+  --
+  --
+  --
+  -- PLAY1-3
+  -- PC RC 44
+  raw 31 05 5B 50 43 2C 52
+  raw 33 05 5B 50 43 2C 52
+  -- other Ch
+  hold for 0.05s
+  raw 31 05 43 2C 34 34 5D
+  raw 33 05 43 2C 34 34 5D
+  hold for 0.05s
+  raw 31 01 0D 00 00 00 00
+  raw 33 01 0D 00 00 00 00
+  -- other Ch
+
+PLAY1 does the PLAY command on digout port 1. As it can output at 8 digout channels at the same time PLAY1-3 shows how to output at digout 1 and 3 a PLAY command.
+
+BTW 8 channels at the same time is a heavy load for the CPU, but it gives freedom of use. The normal digout function is still working. Be sure to set digout, of channels which are used for serial, to 0. Setting to 255, inverts the serial data, so you can optional use an RS232 inverting amplifier.
+-------------------
+                   
+
+* The new command SysExWriteToMixer enables you to write binary data (0-127) directly into the mixer buffer of a LanBox, in a very fast way. Besides the usual SysEx parameters, one must give the mixer start channel, and number of data bytes which is included in the command.
+
+SysExWriteToMixer is like standard LanBox SysEx calls, but as it's a 7 bit binary call instead of ASCII, the command starts with an ASCII $ instead of *. The dollar sign is followed by two zero bytes, a 14 bit start-channel ch , a 14 bit data size n, then n data bytes, ended with an ASCII #.
+
+A complete command to write 162 data bytes into light channel 2561 up in decimals:
+
+240 0 32 64 1 80 0   36 0 0 20 1 1 34   -162bytes-   35 247
+
+The first 7 bytes are our standard SysEx header to send from Device ID 0 to 1.
+Byte 8-10 is the $, followed by two zeros.
+The 20 1 means 20*128+1 (14 bit data) = 2561; the start channel.
+Byte 13-14 (14 bit) is the datasize of 162 (1*128+34).
+Next 162 bytes are values for the mixer channels.
+The command ends with an ASCII # (35 decimal), and 247 for SysEx End.
+
+The same but now in hex:
+
+F0 0 20 40 1 50 0   24 0 0 14 1 1 22   -162bytes-   23 F7
+
+As the speed is mainly determent by the MIDI speed, its a good idea to keep the data length as short as possible. With above example of 162 bytes, you can get a refresh rate of about 15 updates per second.
+-------------------
+
+
+
+New is a LCX firmware version (P), which is the protected version of the normal LCX firmware. With the (P) firmware installed via USB, the following actions are not possible via ethernet:
+1. You can NOT upload firmware via ethernet.
+2. You can NOT change IP global settings.
+3. You can NOT change the password.
+-------------------
+-------------------
+
+
+What's new in LCX/LCE/LCM v2.09 firmware
+
+* Crash on illegal status command solved.
+
+
+
+
+
+* The ethernet driver is enhanced so a LanBox-LCX and LCE can be connected to "smart" ethernet switches. These switches not only detects and corrects automatically 10BT / 100BT, but also crossover / strait connection, full / half duplex, -and- wrong wired cables with polarity faults. As a LanBox ethernet chip also corrects for polarity faults, we had to improve the firmware in order to prevent that box -and- switch keep switching polarity. Also TCP auto re-connect, as used on some show controllers does not lock-up the box anymore.
+
+* LCX only: Analog channels 1-8 are now also visible as light channels 3061-3068, but scaled to 8 bit. We choose the high channel numbers in order to prevent conflicts with current cues. You can map the channels to any DMX address you want, and when using a curve you have a 256 step lookup table.
+
+
+
+What's new in LCX/LCE/LCM v2.08 firmware
+
+* Analog to DMX values on light channels 3061-3068
+
+
+
+
+
+
+
+What's new in LCX/LCE/LCM v2.07 firmware
+
+* The ethernet driver in the LanBox-LCX and LCE have been enhanced, so that it will correctly even with the newest "smart" ethernet switches.
+
+* A new LCX (P) version, which is an ethernet protected/restricted version of the normal firmware.
+
+* Minor bug fixes.
+
+* LCE & LCM IR overload fixed.

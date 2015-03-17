@@ -1,0 +1,37 @@
+[Version]
+LayoutFile=layout.inf
+Signature="$CHICAGO$"
+Class=Modem
+ClassGUID={4D36E96D-E325-11CE-BFC1-08002BE10318}
+Provider=%CDS%
+
+[Manufacturer]
+%CDS% = Models     
+
+[Models]
+%Modem2% = Modem2, USB\CDSMDM002
+
+[Modem2]
+include=cdsmdm.inf
+AddReg = All, CDSUSBModem, Modem2.AddReg
+
+[Modem2.AddReg]
+HKR,, Properties, 1, c0,01,00,00, ff,00,00,00, ff,00,00,00, 07,00,00,00, 0f,00,00,00, f7,03,00,00, 00,c2,01,00, C0,DA,00,00
+HKR,,PortDriver,,wdmmdmld.vxd
+HKR,,Contention,0,
+
+[All]
+HKR,,FriendlyDriver,,unimodem.vxd
+HKR,,DevLoader,,*vcomm
+HKR,,ConfigDialog,,modemui.dll
+HKR,,EnumPropPages,,"modemui.dll,EnumPropPages"
+HKR,,PortSubClass,1,02
+
+[Strings]
+CDS="CDS electronics"
+Modem2	= "CDS LanBox USB Modem" 
+
+[DestinationDirs]
+FakeModemCopyFileSection=12
+DefaultDestDir = 12
+

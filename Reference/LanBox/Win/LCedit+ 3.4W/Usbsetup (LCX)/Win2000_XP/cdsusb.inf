@@ -1,0 +1,59 @@
+[Version]
+LayoutFile=layout.inf
+Signature="$CHICAGO$"
+Class=Modem
+ClassGUID={4D36E96D-E325-11CE-BFC1-08002BE10318}
+Provider=%CDS%
+
+[Manufacturer]
+%CDS% = Models
+
+[ControlFlags]
+ExcludeFromSelect=USB\VID_0D59&PID_0002        
+
+[Models]
+%Modem1% = Modem1, USB\VID_0D59&PID_0002
+
+[Modem1.NT]
+include=cdsmdm.inf
+AddReg=All, CDSUSBModem, Modem1.AddReg, USB
+CopyFiles=FakeModemCopyFileSection
+
+[Modem1.AddReg]
+HKR,, Properties, 1, 80,01,00,00, FF,00,00,00, FF,00,00,00, 07,00,00,00, 0F,00,00,00, FF,03,00,00, 00,C2,01,00, C0,DA,00,00
+HKR,,PortDriver,0,3ccport.vxd
+
+[All]
+HKR,,FriendlyDriver,,unimodem.vxd
+HKR,,DevLoader,,*vcomm
+HKR,,ConfigDialog,,modemui.dll
+HKR,,EnumPropPages,,"modemui.dll,EnumPropPages"
+HKR,,PortSubClass,1,02
+
+[Strings]
+CDS="CDS electronics"
+Modem1	= "CDS LanBox USB Modem" 
+
+[Modem1.NT.Services]
+AddService=usbser, 0x00000000, LowerFilter_Service_Inst
+
+[Modem1.NT.HW]
+AddReg=LowerFilterAddReg
+
+[LowerFilterAddReg]
+HKR,,"LowerFilters",0x00010000,"usbser"
+
+[LowerFilter_Service_Inst]
+DisplayName="USB Modem Driver"
+ServiceType= 1
+StartType  = 3
+ErrorControl = 0
+ServiceBinary = %12%\usbser.sys
+
+[FakeModemCopyFileSection]
+usbser.sys,,,0x20
+
+[DestinationDirs]
+FakeModemCopyFileSection=12
+DefaultDestDir = 12
+
